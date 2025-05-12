@@ -14,7 +14,6 @@
 
         /* 导航样式 */
         .navbar {
-            position: fixed;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
             padding: 20px 0;
@@ -53,49 +52,126 @@
             color: #007BFF;
         }
 
-        /* 锚点定位偏移 */
-        section {
-            scroll-margin-top: 80px;
-        }
-
-        /* 轮播图样式 */
+        /* 轮播图新样式 */
         .banner {
             height: 600px;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                        url('https://source.unsplash.com/random/1920x600') center/cover;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .slides-container {
+            position: relative;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 1;
             color: white;
             text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
         }
 
         .banner-content h1 {
             font-size: 48px;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .banner-content p {
             font-size: 20px;
             margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
 
-        .cta-button {
-            padding: 12px 30px;
-            background: #007BFF;
+        /* 导航箭头 */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.3);
             color: white;
+            padding: 20px;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
+            font-size: 24px;
+            transition: all 0.3s;
+            z-index: 100;
         }
 
-        .cta-button:hover {
-            background: #0056b3;
+        .arrow:hover {
+            background: rgba(0,0,0,0.7);
         }
 
-        /* 产品展示 */
+        .prev {
+            left: 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 5px 0 0 5px;
+        }
+
+        /* 小圆点导航 */
+        .dots-container {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active,
+        .dot:hover {
+            background: rgba(255,255,255,0.9);
+            transform: scale(1.2);
+        }
+
+        /* 其他原有样式 */
+        section {
+            scroll-margin-top: 80px;
+        }
+
         .products {
             padding: 80px 20px;
             max-width: 1200px;
@@ -129,14 +205,22 @@
 
         .product-image {
             height: 200px;
-            background: #f5f5f5;
-            overflow: hidden;
+            overflow: hidden; /* 隐藏超出部分 */
+            display: flex;
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+            background-color: #f5f5f5; /* 备用背景色 */
         }
 
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* 保持比例填满容器 */
+            transition: transform 0.3s; /* 添加悬停效果 */
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05); /* 悬停时轻微放大 */
         }
 
         .product-info {
@@ -164,14 +248,12 @@
             text-decoration: underline;
         }
 
-        /* 关于我们 */
         #about {
             padding: 80px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* 页脚样式 */
         footer {
             background: #2c3e50;
             color: white;
@@ -220,12 +302,50 @@
         </div>
     </nav>
 
-    <!-- 轮播图 -->
+    <!-- 新版轮播图 -->
     <section class="banner" id="home">
-        <div class="banner-content">
-            <h1>欢迎来到软件名称</h1>
-            <p>专业提供行业解决方案</p>
-            <button class="cta-button">了解更多</button>
+        <div class="slides-container">
+            <!-- 轮播项 -->
+            <div class="slide active" style="background-image: url('Images/功能展示3.png')">
+                <div class="banner-content">
+                    <h1>复杂混凝土结构有限元后处理及配筋计算软件</h1>
+                    <p>专业提供行业解决方案</p>
+                    <button class="cta-button">了解更多</button>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('Images/功能展示1.png')">
+                <div class="banner-content">
+                    <h1>精准三维结构分析</h1>
+                    <p>基于先进有限元算法</p>
+                    <button class="cta-button">查看案例</button>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('Images/功能展示4.png')">
+                <div class="banner-content">
+                    <h1>智能配筋设计系统</h1>
+                    <p>自动化生成最优配筋方案</p>
+                    <button class="cta-button">立即体验</button>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('Images/功能展示2.png')">
+                <div class="banner-content">
+                    <h1>可视化结果展示</h1>
+                    <p>多维度数据可视化分析</p>
+                    <button class="cta-button">查看演示</button>
+                </div>
+            </div>
+
+            <!-- 导航箭头 -->
+            <button class="arrow prev">&#10094;</button>
+            <button class="arrow next">&#10095;</button>
+
+            <!-- 小圆点导航 -->
+            <div class="dots-container">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
         </div>
     </section>
 
@@ -235,32 +355,53 @@
         <div class="product-grid">
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://source.unsplash.com/random/400x300" alt="产品1">
+                    <img src="Images/功能展示1.png" alt="产品1">
+                    <img src="Images/功能展示2.png" alt="产品1">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">软件名称1</h3>
-                    <p>产品描述文字，简要说明软件特点和优势。</p>
+                    <h3 class="product-title">三维有限元模型可视化展示</h3>
+                    <p>有限元后处理核心核心可视化展示，支持多种数据模型</p>
                     <a href="#" class="download-link">软件下载</a>
                 </div>
             </div>
-            <!-- 可重复更多产品卡片 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="Images/三维有限元模型可视化展示.png" alt="产品2">
+                    <img src="Images/复杂混凝土结构配筋计算成果.png" alt="产品2">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">复杂混凝土结构配筋计算成果</h3>
+                    <p>自动生成符合规范的配筋方案，支持三维配筋可视化</p>
+                    <a href="#" class="download-link">软件下载</a>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- 关于我们 -->
     <section id="about">
         <h2 class="section-title">关于软件</h2>
-        <p style="text-align: center; line-height: 1.6;">这里是关于软件的详细介绍内容，<br>可以说明软件的背景、技术优势等信息。</p>
+        <p style="text-align: center; line-height: 1.6; max-width: 800px; margin: 0 auto;">
+            复杂混凝土结构有限元后处理及配筋计算软件具备显著优势。
+                        它拥有强大的有限元后处理功能，能直观呈现结构应力、应变分布云图，
+                        输出详细内力、变形数据，为配筋计算提供精准依据；基于先进理论与多规范要求，
+                        可精确计算各种荷载下的配筋需求，兼顾安全与经济。软件支持复杂结构建模，
+                        能准确模拟各类结构及边界条件，配合可视化操作界面，方便模型创建与修改，提高工作效率。
+                        同时兼容多国内外常用规范，适配不同工程需求。该软件不仅能通过精确分析优化设计，
+                        提高结构安全性，还能避免钢筋浪费、减少施工变更，节省设计成本；
+                        其高效功能可缩短设计周期，且丰富的功能与结果输出，有助于提升工程师技术水平，
+                        加之可靠的数据保障，为工程设计提供坚实支撑。
+        </p>
     </section>
 
     <!-- 页脚 -->
-    <footer>
+    <footer id="contact">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>联系我们</h3>
-                <p>地址：XXX省XXX市XXX区</p>
-                <p>电话：000-00000000</p>
-                <p>邮箱：contact@example.com</p>
+                <p>地址：武汉市汉口解放大道1863号</p>
+                <p>电话：18672300680</p>
+                <p>邮箱：2895889481@qq.com</p>
             </div>
             <div class="footer-section">
                 <h3>快速链接</h3>
@@ -272,7 +413,58 @@
     </footer>
 
     <script>
-        // 滚动监听
+        // 轮播图逻辑
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        let autoPlay = true;
+        let interval = 3000; // 切换间隔3秒
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        // 自动播放
+        let slideInterval = setInterval(() => {
+            if(autoPlay) showSlide(currentSlide + 1);
+        }, interval);
+
+        // 事件监听
+        document.querySelector('.prev').addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+            resetInterval();
+        });
+
+        document.querySelector('.next').addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+            resetInterval();
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+                resetInterval();
+            });
+        });
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(() => {
+                if(autoPlay) showSlide(currentSlide + 1);
+            }, interval);
+        }
+
+        // 悬停控制
+        const slider = document.querySelector('.slides-container');
+        slider.addEventListener('mouseenter', () => autoPlay = false);
+        slider.addEventListener('mouseleave', () => autoPlay = true);
+
+        // 原有滚动逻辑
         window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
                 document.querySelector('.navbar').style.background = 'rgba(255,255,255,0.98)';
@@ -281,7 +473,6 @@
             }
         });
 
-        // 增强版平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();

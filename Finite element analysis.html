@@ -23,6 +23,19 @@
         top: 0;
         }
 
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .software-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+        }
+
         .nav-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -36,6 +49,12 @@
             font-size: 24px;
             font-weight: bold;
             color: #333;
+        }
+
+        /* 调整logo图片尺寸 */
+        .logo-img {
+            height: 40px;
+            width: auto;
         }
 
         .nav-content img {
@@ -305,17 +324,20 @@
 <body>
     <!-- 导航栏 -->
     <nav class="navbar">
-        <div class="nav-content">
+    <div class="nav-content">
+        <!-- 将logo和名称包裹在一个容器中 -->
+        <div class="logo-group">
             <img src="Images/软件logo.png" class="logo-img">
-            <div class="nav-links">
-                <a href="#home">首页</a>
-                <a href="#products">软件产品</a>
-                <a href="#about">关于软件</a>
-                <a href="#contact">联系我们</a>
-            </div>
+            <span class="software-name">结构有限元后处理及配筋计算软件</span>
         </div>
+        <div class="nav-links">
+            <a href="#home">首页</a>
+            <a href="#products">软件产品</a>
+            <a href="#about">关于软件</a>
+            <a href="#contact">联系我们</a>
+        </div>
+    </div>
     </nav>
-
     <!-- 新版轮播图 -->
     <section class="banner" id="home">
         <div class="slides-container">
